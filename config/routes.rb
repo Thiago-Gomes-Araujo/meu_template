@@ -1,20 +1,19 @@
 Rails.application.routes.draw do
+  resources :clientes, only: [:edit, :update]
+  # resources :atendimentos
+  resources :itinerarios
   resources :servicos
-  resources :funcionarios
   resources :enderecos
-  resources :clientes
-  resources :atendimentos
+  resources :funcionarios
   devise_for :users
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
-
-  # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
-  # Can be used by load balancers and uptime monitors to verify that the app is live.
-  get "up" => "rails/health#show", as: :rails_health_check
-
-  # Render dynamic PWA files from app/views/pwa/*
-  get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
-  get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
-
-  # Defines the root path route ("/")
   root "home#index"
+  post 'create_avaliacao', to: 'home#create_avaliacao'
+
+ # config/routes.rb
+ resources :atendimentos do
+  post :set_data_inicio, on: :member
+  post :set_data_fim, on: :member
+  patch :atualizar_funcionario, on: :member
+end
+
 end

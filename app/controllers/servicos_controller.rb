@@ -1,31 +1,35 @@
 class ServicosController < ApplicationController
-  before_action :set_servico, only: %i[ show edit update destroy ]
+  before_action :set_servico, only: [:show, :edit, :update, :destroy] # Alterado para incluir apenas ações necessárias
+  before_action :authenticate_user!, except: [:index, :show]
 
-  # GET /servicos or /servicos.json
   def index
-    @servicos = Servico.all
+    if params[:query].present?
+      query = params[:query]
+      @servicos = Servico.where('titulo ILIKE :query OR descricao ILIKE :query', query: "%#{query}%")
+    else
+      @servicos = Servico.all
+    end
+    @pagy, @servicos = pagy(@servicos)
   end
 
-  # GET /servicos/1 or /servicos/1.json
+
   def show
   end
 
-  # GET /servicos/new
   def new
     @servico = Servico.new
   end
 
-  # GET /servicos/1/edit
+
   def edit
   end
 
-  # POST /servicos or /servicos.json
   def create
     @servico = Servico.new(servico_params)
 
     respond_to do |format|
       if @servico.save
-        format.html { redirect_to @servico, notice: "Servico was successfully created." }
+        format.html { redirect_to @servico, notice: "Serviço criado com sucesso." }
         format.json { render :show, status: :created, location: @servico }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -34,11 +38,10 @@ class ServicosController < ApplicationController
     end
   end
 
-  # PATCH/PUT /servicos/1 or /servicos/1.json
   def update
     respond_to do |format|
       if @servico.update(servico_params)
-        format.html { redirect_to @servico, notice: "Servico was successfully updated." }
+        format.html { redirect_to @servico, notice: "Serviço atualizado com sucesso." }
         format.json { render :show, status: :ok, location: @servico }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -47,24 +50,27 @@ class ServicosController < ApplicationController
     end
   end
 
-  # DELETE /servicos/1 or /servicos/1.json
   def destroy
-    @servico.destroy!
-
-    respond_to do |format|
-      format.html { redirect_to servicos_path, status: :see_other, notice: "Servico was successfully destroyed." }
-      format.json { head :no_content }
+    if @servico
+      @servico.destroy
+      respond_to do |format|
+        format.html { redirect_to servicos_path, notice: "Serviço excluído com sucesso." }
+        format.json { head :no_content }
+      end
+    else
+      redirect_to servicos_path, alert: "Serviço não encontrado."
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_servico
-      @servico = Servico.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def servico_params
-      params.require(:servico).permit(:titulo, :descricao, :tempodeatendimento, :valor)
+  def set_servico
+    @servico = Servico.find_by(id: params[:id]) 
+    unless @servico
+      redirect_to servicos_path, alert: "Serviço não encontrado." 
     end
+  end
+  def servico_params
+    params.require(:servico).permit(:titulo, :descricao, :valor)
+  end
 end

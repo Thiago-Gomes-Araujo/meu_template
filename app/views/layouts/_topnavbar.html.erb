@@ -4,6 +4,29 @@
   <img src="<%= image_path('logo_sem_fundo.png') %>" class="d-block img-fluid" alt="Logo do Site" style="height: 60px; object-fit: cover;"/>
  </a>
 
+ <ul class="navbar-nav ms-auto">
+        <li class="nav-item dropdown">
+          <% if user_signed_in? %>
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <%= current_user %>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li><%= link_to 'Meus Dados', edit_cliente_path(current_user), class: 'dropdown-item' %></li>
+              <li><hr class="dropdown-divider"></li>
+              <li class="nav-item">
+                <%= link_to 'Endereços', enderecos_path, class: 'dropdown-item' %>
+              </li>
+              <li><%= button_to 'Sair', destroy_user_session_path, method: :delete, class: 'dropdown-item' %></li>
+            </ul>
+          <% else %>
+            <div class="auth-buttons ">
+              <%= button_to "Sign In", new_user_session_path, class: "custom-signin-button" %>
+              <%= link_to "Sign Up", new_user_registration_path, class: "custom-signup-button" %>
+            </div>
+          <% end %>
+        </li>
+      </ul>
+
   <ul class="navbar-nav flex-row d-md-none">
     <li class="nav-item text-nowrap">
       <button class="nav-link px-3 text-white" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">

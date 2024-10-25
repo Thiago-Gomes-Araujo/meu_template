@@ -1,70 +1,67 @@
 class EnderecosController < ApplicationController
-  before_action :set_endereco, only: %i[ show edit update destroy ]
+  before_action :authenticate_user!  # Garantir que o usuário está logado antes de qualquer ação
+  before_action :set_endereco, only: [:show, :edit, :update, :destroy]  # Usar callback para encontrar endereço
 
-  # GET /enderecos or /enderecos.json
   def index
-    @enderecos = Endereco.all
-  end
+    if current_user.admin?
+      # Se o usuário for admin, busca todos os endereços
+      @enderecos = Endereco.ransack(params[:q]) # Supondo que Endereco é o nome do modelo
+    else
+      # Se não, busca apenas os endereços do cliente do usuário atual
+      @enderecos = current_user.cliente.enderecos.ransack(params[:q])
+    end
 
-  # GET /enderecos/1 or /enderecos/1.json
+    @pagy, @endereco = pagy(@enderecos.result)
+  end
+  
   def show
+    # @endereco já definido pelo before_action
   end
 
-  # GET /enderecos/new
   def new
     @endereco = Endereco.new
   end
 
-  # GET /enderecos/1/edit
-  def edit
-  end
-
-  # POST /enderecos or /enderecos.json
   def create
-    @endereco = Endereco.new(endereco_params)
-
-    respond_to do |format|
-      if @endereco.save
-        format.html { redirect_to @endereco, notice: "Endereco was successfully created." }
-        format.json { render :show, status: :created, location: @endereco }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @endereco.errors, status: :unprocessable_entity }
-      end
+    @endereco = current_user.cliente.enderecos.build(endereco_params) # Associar o endereço ao cliente do usuário logado
+    if @endereco.save
+      redirect_to enderecos_path, notice: 'Endereço criado com sucesso!'
+    else
+      render :new
     end
   end
 
-  # PATCH/PUT /enderecos/1 or /enderecos/1.json
+  def edit
+    # @endereco já definido pelo before_action
+  end
+  
   def update
-    respond_to do |format|
-      if @endereco.update(endereco_params)
-        format.html { redirect_to @endereco, notice: "Endereco was successfully updated." }
-        format.json { render :show, status: :ok, location: @endereco }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @endereco.errors, status: :unprocessable_entity }
-      end
+    if @endereco.update(endereco_params)
+      redirect_to enderecos_path, notice: 'Endereço atualizado com sucesso!'
+    else
+      render :edit
     end
   end
 
-  # DELETE /enderecos/1 or /enderecos/1.json
   def destroy
-    @endereco.destroy!
-
-    respond_to do |format|
-      format.html { redirect_to enderecos_path, status: :see_other, notice: "Endereco was successfully destroyed." }
-      format.json { head :no_content }
-    end
+    @endereco.destroy
+    redirect_to enderecos_path, notice: 'Endereço excluído com sucesso!'
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_endereco
-      @endereco = Endereco.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def endereco_params
-      params.require(:endereco).permit(:descricao, :rua, :cidade, :estado, :cep, :cliente_id, :funcionario_id, :endereco_principal)
+  def set_endereco
+    @endereco = Endereco.find(params[:id])
+    # Verifica se o usuário é administrador ou se o endereço pertence ao cliente do usuário logado
+    unless current_user.admin? || @endereco.cliente == current_user.cliente
+      redirect_to enderecos_path, alert: 'Você não tem permissão para acessar este endereço.'
     end
+  end
+
+
+  private
+
+  def endereco_params
+    params.require(:endereco).permit(:descricao, :rua, :cidade, :estado, :cep, :endereco_principal)
+  end
 end
