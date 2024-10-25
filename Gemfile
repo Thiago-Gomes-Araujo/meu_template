@@ -57,3 +57,20 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
 end
+gem "devise", "~> 4.9"
+
+gem "dotenv-rails", "~> 3.1"
+
+gem 'cancancan'
+
+gem 'ransack'
+
+gem 'pagy'
+
+gem 'byebug'
+
+gem "htmlbeautifier", "~> 1.4"
+
+gem "shutup", "~> 0.1.2"
+
+gem 'simple_form'

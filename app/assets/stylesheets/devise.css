@@ -1,0 +1,11 @@
+.shadow-custom {
+    /* Sombra padrão para desktop */
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+  }
+
+  @media (max-width: 768px) {
+    .shadow-custom {
+      /* Sombra preta para mobile */
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 1);
+    }
+  }

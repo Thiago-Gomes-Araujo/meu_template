@@ -1,0 +1,96 @@
+<section id="three-columns" class="section-background">
+  <div class="row d-md-flex justify-content-center">
+    <% @avaliacoes.each do |avaliacao| %>
+      <div class="col-lg-3 col-md-4 col-sm-6 mb-4"> <!-- 4 colunas em telas grandes, 3 em médias e 2 em pequenas -->
+        <div class="card h-100">
+          <div class="card-body">
+            <h5><%= avaliacao.cliente.nome %></h5>
+            <!-- Exibir estrelas baseadas na nota -->
+            <p>
+              <% avaliacao.nota.times do %>
+                <i class="bi bi-star-fill text-warning"></i> <!-- Estrela preenchida -->
+              <% end %>
+              <% (5 - avaliacao.nota).times do %>
+                <i class="bi bi-star text-warning"></i> <!-- Estrela vazia -->
+              <% end %>
+            </p>
+            <p><strong>Data:</strong> <%= avaliacao.data.strftime("%d/%m/%Y") %></p>
+            <p><strong>Comentário:</strong> <%= avaliacao.comentario %></p>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <!-- Botão para abrir a modal -->
+  <div class="d-grid gap-2 d-md-flex justify-content-center mt-3 add-aval-btn">
+    <a class="btn btn-primary" href="#" data-bs-toggle="modal" data-bs-target="#avaliacaoModal">Adicionar Avaliação</a>
+  </div>
+</section>
+
+<!-- Modal para o formulário -->
+<div class="modal fade" id="avaliacaoModal" tabindex="-1" aria-labelledby="avaliacaoModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="avaliacaoModalLabel">Adicionar Avaliação</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <% if user_signed_in? %>
+          <%= form_with(model: @avaliacao, url: create_avaliacao_path, local: true) do |f| %>
+            <!-- Select para as estrelas (nota) -->
+            <div class="mb-3">
+              <%= f.label :nota, "Nota (Estrelas)" %>
+              <%= f.select :nota, options_for_select([
+                ["★☆☆☆☆", 1], 
+                ["★★☆☆☆", 2], 
+                ["★★★☆☆", 3], 
+                ["★★★★☆", 4], 
+                ["★★★★★", 5]
+              ]), {}, class: 'form-select' %>
+            </div>
+
+            <div class="mb-3">
+              <%= f.label :comentario %>
+              <%= f.text_area :comentario, class: 'form-control' %>
+            </div>
+
+            <div class="modal-footer">
+              <%= f.submit 'Criar Avaliação', class: 'btn btn-primary' %>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+            </div>
+          <% end %>
+        <% else %>
+          <div class="text-center mb-3">
+            <p>You need to be logged in to add a review.</p>
+            <%= button_to 'Login', new_user_session_path, class: 'btn btn-outline-primary' %>
+          </div>
+        <% end %>
+      </div>  
+    </div>
+  </div>
+</div>
+
+<style>
+.section-background {
+  background-image: url('<%= asset_path("fundoavaliacoes.jpg") %>');
+  background-size: cover; 
+  background-position: center; 
+  background-repeat: no-repeat;
+  padding: 50px 0; 
+  color: white; 
+  position: relative;
+}
+
+.add-aval-btn {
+  position: relative; /* Ajustado para melhor responsividade */
+  margin-top: 20px; /* Adicionei margem para espaçar do conteúdo acima */
+}
+
+@media (max-width: 768px) {
+  .add-aval-btn {
+    position: static; /* Para que o botão não fique fixo em telas pequenas */
+  }
+}
+</style>

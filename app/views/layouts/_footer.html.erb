@@ -1,0 +1,72 @@
+<footer class="text-center style-footer mt-3">
+  <div class="top-banner">  
+    <p class="banner-text">We clean. A lot. Clean Home.<br>Professional Service. Fair Price.</p>
+  </div>
+  <div class="footer-content">
+    <div class="logo-and-text">
+      <p class="copyright">
+        &copy; 2024 by Rocket System
+      </p>
+    </div>
+  </div>
+</footer>
+<style>
+/* Estilo da faixa superior com o texto */
+.top-banner {
+  position: absolute;
+  top: -30px; /* Ajuste a altura para deixar mais fino */
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #00d7ff;
+  padding: 5px 20px; /* Reduzido o padding para deixar mais fino */
+  border-radius: 10px;
+  width: 70%;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.banner-text {
+  font-size: 18px; /* Texto um pouco maior */
+  font-weight: bold;
+  color: white;
+  text-align: center;
+  margin: 0;
+}
+
+/* Estilo do rodapé */
+.style-footer {
+  background-color: #001f3f;
+  padding: 50px 20px 10px 20px; /* Diminuído o padding no topo */
+  position: relative;
+  color: white;
+  text-align: center;
+}
+
+/* Contêiner para logo e texto */
+.logo-and-text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px; /* Espaço entre logo e texto */
+}
+
+
+
+/* Texto do rodapé */
+.copyright {
+  font-size: 14px;
+  color: white;
+  margin: 0;
+}
+
+/* Curva no canto do rodapé */
+.style-footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 150px;
+  height: 100px;
+  background-color: #00b3c7;
+  border-radius: 0 0 0 150px;
+}
+</style>

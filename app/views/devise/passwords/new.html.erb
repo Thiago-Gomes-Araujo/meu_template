@@ -1,0 +1,46 @@
+<section class="">
+  <div class="container my-5">
+    <div class="row gx-lg-5 align-items-center">
+      <div class="col-lg-6 d-none d-lg-block">
+        <h1 class="my-5 display-3 fw-bold ls-tight">
+          Forgot your password? <br />
+          <span class="text-primary">We'll help you recover it</span>
+        </h1>
+        <p style="color: hsl(217, 10%, 50.8%)">
+          Please enter your email to receive instructions for resetting your password.
+        </p>
+      </div>
+
+      <div class="col-lg-6 col-md-8 col-sm-10">
+        <div class="card shadow-custom">
+          <div class="card-body py-5 px-md-5">
+            <h2>Forgot your password?</h2>
+
+            <% if resource.errors.any? %>
+              <div class="alert alert-danger">
+                <h4><%= pluralize(resource.errors.count, "error") %> prohibited this user from being saved:</h4>
+                <ul>
+                  <% resource.errors.full_messages.each do |message| %>
+                    <li><%= message %></li>
+                  <% end %>
+                </ul>
+              </div>
+            <% end %>
+
+            <%= simple_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post, class: 'form' }) do |f| %>
+              <div class="mb-4">
+                <%= f.input :email, label: 'Email', placeholder: 'Enter your email address', autofocus: true, input_html: { class: 'form-control', autocomplete: 'email' } %>
+              </div>
+
+              <div class="text-center">
+                <%= f.button :submit, "Reset", class: 'btn btn-primary btn-block mb-4' %>
+              </div>
+            <% end %>
+
+            <%= render "devise/shared/links" %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,32 @@
+<div id="myCarousel" class="carousel slide mt-3 mb-6" data-bs-ride="carousel">
+  <div class="carousel-indicators">
+    <% @images.each_with_index do |image, index| %>
+      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="<%= index %>" class="<%= index.zero? ? 'active' : '' %>" aria-current="<%= index.zero? ? 'true' : 'false' %>" aria-label="Slide <%= index + 1 %>"></button>
+    <% end %>
+  </div>
+
+  <div class="carousel-inner">
+    <% @images.each_with_index do |image, index| %>
+      <div class="carousel-item <%= index.zero? ? 'active' : '' %>">
+        <img src="<%= image_path(image) %>" class="d-block w-100 img-fluid" alt="Serviço <%= index + 1 %>" style="height: 400px; object-fit: cover;">
+      </div>
+    <% end %>
+  </div>
+
+  <div class="carousel-caption text-start">
+    <h1>Schedule your time.</h1>
+    <p class="opacity-75">Request a service, easy and fast.</p>
+    <p><%= link_to 'Request', atendimentos_path, class: 'btn btn-lg btn-primary' %></p>
+  </div>
+
+  <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+
+  <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+

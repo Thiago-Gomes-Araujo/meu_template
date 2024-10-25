@@ -1,0 +1,66 @@
+<h4 class="service-title text-start">Type of Services</h4>
+<div id="serviceCarousel" class="carousel slide w-100" data-bs-ride="carousel">
+  <div class="carousel-inner">
+    <!-- Primeiro grupo de itens -->
+    <div class="carousel-item active">
+      <div class="row g-3">
+        <% ['image4.jpg', 'profunda.jpg', 'image1.jpg', 'image4.jpg', 'oven.jpeg', 'fridge.jpeg'].each_with_index do |image, index| %>
+          <div class="col-6 col-md-2"> <!-- Ajustando para col-6 em mobile e col-md-2 em desktop -->
+            <div class="card text-center h-100">
+              <img src="<%= image_path(image) %>" class="card-img-top img-fluid" alt="Service Image <%= index + 1 %>" style="height: 250px; object-fit: cover;">
+              <div class="card-body" style="background: linear-gradient(to top, #0056b3 10%, white 90%);">
+                <h5 class="card-title"><%= ["House", "Deep", "Kitchen", "Building", "Oven", "Fridge"][index] %></h5>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+    <!-- Segundo grupo de itens -->
+    <div class="carousel-item">
+      <div class="row g-3">
+        <% ['image2.jpg', 'house.jpg', 'card1.jpg', 'Building.jpg', 'banheiro.jpg', 'basement cleaning.jpg'].each_with_index do |image, index| %>
+          <div class="col-6 col-md-2">
+            <div class="card text-center h-100">
+              <img src="<%= image_path(image) %>" class="card-img-top img-fluid" alt="Service Image <%= index + 1 %>" style="height: 250px; object-fit: cover;">
+              <div class="card-body" style="background: linear-gradient(to top, #0056b3 10%, white 90%);">
+                <h5 class="card-title"><%= ["Room", "Frequently", "Office", "Building", "Bathroom", "Basement"][index] %></h5>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+    <!-- Terceiro grupo de itens -->
+    <div class="carousel-item">
+      <div class="row g-3">
+        <% ['fan.jpeg', 'glass.jpeg', 'floor.jpeg', 'carpetvacuum.jpg', 'image5.jpg', 'card15.jpg'].each_with_index do |image, index| %>
+          <div class="col-6 col-md-2">
+            <div class="card text-center h-100">
+              <img src="<%= image_path(image) %>" class="card-img-top img-fluid" alt="Service Image <%= index + 1 %>" style="height: 250px; object-fit: cover;">
+              <div class="card-body" style="background: linear-gradient(to top, #0056b3 10%, white 90%);">
+                <h5 class="card-title"><%= ["Fan", "Glass", "Floor", "Carpet Vacuum", "Ladder", "House"][index] %></h5>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#serviceCarousel" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#serviceCarousel" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+<script>
+  const myCarouselElement = document.querySelector('#serviceCarousel');
+
+  const carousel = new bootstrap.Carousel(myCarouselElement, {
+    interval: 25000,
+    touch: false
+  });
+</script>

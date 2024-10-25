@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  data_inicio: 2024-10-25 00:41:26
+  status_agendamento: one
+  cliente: one
+  endereco: one
+  funcionario: one
+  data_fim: 2024-10-25 00:41:26
+
+two:
+  data_inicio: 2024-10-25 00:41:26
+  status_agendamento: two
+  cliente: two
+  endereco: two
+  funcionario: two
+  data_fim: 2024-10-25 00:41:26

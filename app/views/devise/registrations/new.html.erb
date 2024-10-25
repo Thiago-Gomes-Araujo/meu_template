@@ -1,0 +1,56 @@
+<section class="">
+  <div class="container my-5">
+    <div class="row gx-lg-5 align-items-center">
+      <div class="col-lg-6 d-none d-lg-block">
+        <h1 class="my-5 display-3 fw-bold ls-tight">
+          The best offer <br />
+          <span class="text-primary">for your business</span>
+        </h1>
+      </div>
+      <div class="col-lg-6 col-md-8 col-sm-10">
+        <div class="card shadow-custom">
+          <div class="card-body py-5 px-md-5">
+
+            <% if resource.errors.any? %>
+              <div class="alert alert-danger">
+                <h4><%= pluralize(resource.errors.count, "error") %> prohibited this user from being saved:</h4>
+                <ul>
+                  <% resource.errors.full_messages.each do |message| %>
+                    <li><%= message %></li>
+                  <% end %>
+                </ul>
+              </div>
+            <% end %>
+
+            <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: 'form' }) do |f| %>
+              <div class="mb-4">
+                <%= f.input :nome, placeholder: "Enter your name", input_html: { class: 'form-control', required: true } %>
+              </div>
+              <div class="mb-4">
+                <%= f.input :telefone, placeholder: "Enter your phone number", input_html: { class: 'form-control', required: true } %>
+              </div>
+
+              <div class="mb-4">
+                <%= f.input :email, placeholder: "Enter your email address", input_html: { class: 'form-control', autofocus: true, autocomplete: 'email' } %>
+              </div>
+
+              <div class="mb-4">
+                <%= f.input :password, placeholder: "Create a password", input_html: { class: 'form-control', autocomplete: 'new-password' }, hint: @minimum_password_length ? "(#{@minimum_password_length} characters minimum)" : "" %>
+              </div>
+              <div class="mb-4">
+                <%= f.input :password_confirmation, placeholder: "Confirm your password", input_html: { class: 'form-control', autocomplete: 'new-password' } %>
+              </div>
+
+              <div class="text-center">
+                <%= f.button :submit, "Sign up", class: 'btn btn-primary btn-block mb-4' %>
+              </div>
+
+            <% end %>
+
+            <%= render "devise/shared/links" %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
